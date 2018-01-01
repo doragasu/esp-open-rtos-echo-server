@@ -146,6 +146,7 @@ void tcp_echo_tsk(void *pvParameters)
 							FD_SET(fd, &master);
 							fdmax = MAX(fd, fdmax);
 						} else {
+                            printf("Data available on socket %d\n", i);
 							if ((readed = lwip_recv(i, buffer, sizeof(buffer), 0)) <= 0) {
 								// Connection closed or error
 								printf("Connection lost on socket %d\n", i);
@@ -153,8 +154,10 @@ void tcp_echo_tsk(void *pvParameters)
 								FD_CLR(i, &master);
 							} else {
 								// Echo received data
+                                printf("Received %d bytes\n", readed);
 								if (lwip_send(i, buffer, readed, 0) < 0)
 									printf("Send error on socket %d!\n", i);
+                                printf("Sent!\n");
 							}
 						}
 					}
